@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'pages/chat_page.dart';
+import 'pages/checklist_page.dart';
+import 'pages/guides_page.dart';
+import 'pages/home_page.dart';
+import 'pages/settings_page.dart';
+
 void main() {
   runApp(const QuakeSafeApp());
 }
@@ -22,70 +28,55 @@ class QuakeSafeApp extends StatelessWidget {
           secondary: Color(0xFF8B5CF6),
           surface: Color(0xFF151320),
         ),
+        appBarTheme: const AppBarTheme(backgroundColor: Color(0xFF0F0D18)),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const RootPage(),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class RootPage extends StatefulWidget {
+  const RootPage({super.key});
+
+  @override
+  State<RootPage> createState() => _RootPageState();
+}
+
+class _RootPageState extends State<RootPage> {
+  int index = 0;
+
+  static const titles = [
+    'QuakeSafe',
+    'Rehber',
+    'Kontrol Listesi',
+    'Mesh Sohbet',
+    'Ayarlar',
+  ];
+
+  final pages = const [
+    HomePage(),
+    GuidesPage(),
+    ChecklistPage(),
+    ChatPage(),
+    SettingsPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('QuakeSafe'),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: const [
-          _InfoCard(
-            title: 'Acil Durum Bilgilendirme',
-            subtitle: 'Deprem anında güvenli davranış adımlarını internet olmadan görüntüleyin.',
-          ),
-          SizedBox(height: 12),
-          _InfoCard(
-            title: 'Offline Hazırlık Listesi',
-            subtitle: 'Su, ilk yardım kiti ve toplanma planı için kontrol listesini takip edin.',
-          ),
-          SizedBox(height: 12),
-          _InfoCard(
-            title: 'Mesh Sohbet (Yakında)',
-            subtitle: 'Bluetooth mesh tabanlı acil iletişim altyapısı için temel hazır.',
-          ),
+      appBar: AppBar(title: Text(titles[index])),
+      body: pages[index],
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: index,
+        onDestinationSelected: (value) => setState(() => index = value),
+        destinations: const [
+          NavigationDestination(icon: Icon(Icons.home_outlined), label: 'Ana Sayfa'),
+          NavigationDestination(icon: Icon(Icons.menu_book_outlined), label: 'Rehber'),
+          NavigationDestination(icon: Icon(Icons.checklist_outlined), label: 'Liste'),
+          NavigationDestination(icon: Icon(Icons.forum_outlined), label: 'Sohbet'),
+          NavigationDestination(icon: Icon(Icons.settings_outlined), label: 'Ayarlar'),
         ],
-      ),
-    );
-  }
-}
-
-class _InfoCard extends StatelessWidget {
-  const _InfoCard({required this.title, required this.subtitle});
-
-  final String title;
-  final String subtitle;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              subtitle,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ],
-        ),
       ),
     );
   }
