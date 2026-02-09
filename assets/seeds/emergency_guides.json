@@ -1,0 +1,21 @@
+[
+  {
+    "id": "guide_eq_001",
+    "title": "Deprem Anı Rehberi",
+    "hazardType": "earthquake",
+    "version": 1,
+    "lastReviewedAt": "2026-01-01T12:00:00Z",
+    "steps": [
+      {
+        "id": "step_1",
+        "order": 1,
+        "instruction": "Çök-kapan-tutun pozisyonu alın."
+      },
+      {
+        "id": "step_2",
+        "order": 2,
+        "instruction": "Sarsıntı bitene kadar bulunduğunuz yerde kalın."
+      }
+    ]
+  }
+]

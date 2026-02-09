@@ -1,0 +1,15 @@
+name: quakesafe_app_offline
+publish_to: none
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+flutter:
+  assets:
+    - assets/seeds/alerts.json
+    - assets/seeds/preparedness_checklists.json
+    - assets/seeds/emergency_guides.json

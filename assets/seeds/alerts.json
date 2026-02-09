@@ -1,0 +1,22 @@
+[
+  {
+    "id": "alert_earthquake_001",
+    "title": "Orta Şiddette Deprem Riski",
+    "body": "Önümüzdeki 24 saat içinde artçı sarsıntı bekleniyor. Güvenli alan planınızı gözden geçirin.",
+    "severity": "high",
+    "category": "earthquake",
+    "publishedAt": "2026-01-15T09:00:00Z",
+    "expiresAt": null,
+    "isRead": false
+  },
+  {
+    "id": "alert_weather_001",
+    "title": "Yoğun Yağış Uyarısı",
+    "body": "Sel riskine karşı bodrum katı kontrol edin ve acil çantanızı hazır tutun.",
+    "severity": "medium",
+    "category": "weather",
+    "publishedAt": "2026-01-15T06:00:00Z",
+    "expiresAt": null,
+    "isRead": false
+  }
+]
