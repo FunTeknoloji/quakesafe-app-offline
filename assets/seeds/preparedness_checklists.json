@@ -1,0 +1,22 @@
+[
+  {
+    "id": "checklist_home_001",
+    "title": "Ev Hazırlık Listesi",
+    "description": "Afet öncesi temel hazırlık adımları",
+    "lastUpdated": null,
+    "items": [
+      {
+        "id": "item_1",
+        "label": "Acil durum çantası hazırla",
+        "order": 1,
+        "isCompleted": false
+      },
+      {
+        "id": "item_2",
+        "label": "Aile buluşma noktası belirle",
+        "order": 2,
+        "isCompleted": false
+      }
+    ]
+  }
+]
