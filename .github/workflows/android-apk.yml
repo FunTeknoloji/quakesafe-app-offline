@@ -54,6 +54,14 @@ jobs:
             echo "ANDROID_KEYSTORE_BASE64 not set, continuing without keystore decode"
           fi
 
+
+      - name: Ensure Gradle wrapper jar
+        if: steps.project_check.outputs.has_flutter_project == 'true'
+        run: |
+          if [ ! -f android/gradle/wrapper/gradle-wrapper.jar ]; then
+            curl -fsSL -o android/gradle/wrapper/gradle-wrapper.jar               https://raw.githubusercontent.com/gradle/gradle/v8.4.0/gradle/wrapper/gradle-wrapper.jar
+          fi
+
       - name: Build release APK
         if: steps.project_check.outputs.has_flutter_project == 'true'
         run: flutter build apk --release
