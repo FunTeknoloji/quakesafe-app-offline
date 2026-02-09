@@ -1,0 +1,23 @@
+#!/bin/sh
+
+##############################################################################
+##
+##  Gradle start up script for POSIX generated manually for CI usage.
+##
+##############################################################################
+
+APP_HOME=$(cd "${0%/*}" && pwd -P)
+CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
+
+if [ ! -f "$CLASSPATH" ]; then
+  echo "Missing $CLASSPATH" >&2
+  exit 1
+fi
+
+if [ -n "$JAVA_HOME" ] ; then
+  JAVACMD="$JAVA_HOME/bin/java"
+else
+  JAVACMD=java
+fi
+
+exec "$JAVACMD" -classpath "$CLASSPATH" org.gradle.wrapper.GradleWrapperMain "$@"

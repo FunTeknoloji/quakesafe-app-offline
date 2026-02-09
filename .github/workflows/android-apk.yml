@@ -1,0 +1,75 @@
+name: Android APK
+
+on:
+  push:
+    branches: ["main", "work"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect Flutter project
+        id: project_check
+        run: |
+          if [ -f pubspec.yaml ]; then
+            echo "has_flutter_project=true" >> "$GITHUB_OUTPUT"
+            echo "Flutter project detected (pubspec.yaml found)."
+          else
+            echo "has_flutter_project=false" >> "$GITHUB_OUTPUT"
+            echo "No pubspec.yaml in repository root; skipping APK build."
+          fi
+
+      - name: Set up Java
+        if: steps.project_check.outputs.has_flutter_project == 'true'
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Flutter
+        if: steps.project_check.outputs.has_flutter_project == 'true'
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Flutter pub get
+        if: steps.project_check.outputs.has_flutter_project == 'true'
+        run: flutter pub get
+
+      - name: Decode Android keystore (optional)
+        if: steps.project_check.outputs.has_flutter_project == 'true'
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$ANDROID_KEYSTORE_BASE64" ]; then
+            echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/upload-keystore.jks
+            echo "Keystore decoded to android/app/upload-keystore.jks"
+          else
+            echo "ANDROID_KEYSTORE_BASE64 not set, continuing without keystore decode"
+          fi
+
+
+      - name: Ensure Gradle wrapper jar
+        if: steps.project_check.outputs.has_flutter_project == 'true'
+        run: |
+          if [ ! -f android/gradle/wrapper/gradle-wrapper.jar ]; then
+            curl -fsSL -o android/gradle/wrapper/gradle-wrapper.jar               https://raw.githubusercontent.com/gradle/gradle/v8.4.0/gradle/wrapper/gradle-wrapper.jar
+          fi
+
+      - name: Build release APK
+        if: steps.project_check.outputs.has_flutter_project == 'true'
+        run: flutter build apk --release
+
+      - name: Upload APK artifact
+        if: steps.project_check.outputs.has_flutter_project == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: quakesafe-release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
